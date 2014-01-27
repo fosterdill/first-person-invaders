@@ -13,7 +13,7 @@
       this.canvas = document.getElementById('game');
       this.ctx = this.canvas.getContext('2d');
       var that = this;
-      setTimeout(function () {
+      setInterval(function () {
         that.objects.push(that.playerShip.fire());
       }, 2000);
       this.loop();
@@ -26,11 +26,20 @@
 
     render: function () {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      var that = this;
+      var objectsToKill = [];
 
-      _.each(this.objects, function (object) {
-        object.show(this.canvas, this.ctx);
+      _.each(this.objects, function (object, index) {
+        object.show(that.canvas, that.ctx);
         object.move();
+        if (object.pos[0] > this.canvas.width || object.pos[0] < 0 ||
+              object.pos[1] > this.canvas.height || object.pos[1] < 0) {
+          objectsToKill.push(index);
+        }
       }, this);
+      _.each(objectsToKill, function (index) {
+        that.objects.splice(index, 1);
+      });
     }
   });
 }(this));

@@ -6,11 +6,5 @@
   };
 
   _.extend(Shot.prototype, SpaceGame.MovingObject.prototype, {
-    drawPath: function (canvas, ctx) {
-      var x = this.pos[0];
-      var y = this.pos[1];
-      ctx.fillStyle="#FF0000";
-      ctx.fillRect(x, y, 150, 75);
-    }
   });
 }(this));

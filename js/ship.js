@@ -12,7 +12,6 @@
     },
 
     _gunPos: function () {
-      console.log(this.img.height);
       return [this.pos[0] + (this.img.width / 2) - 5, 
               this.pos[1] + this.img.height];
     }
