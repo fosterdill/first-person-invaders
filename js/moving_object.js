@@ -26,6 +26,11 @@
       }
     },
 
+    isOutOfBounds: function (canvas) {
+      return (this.pos[0] > canvas.width || this.pos[0] < 0 ||
+                    this.pos[1] > canvas.height || this.pos[1] < 0);
+    },
+
     //Getters and setters
     setImage: function (img) {
       this.img = new Image();
