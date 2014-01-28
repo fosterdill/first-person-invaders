@@ -18,8 +18,8 @@
       if (this.img) {
         ctx.drawImage(
           this.getImage(), 
-          this.pos[0], 
-          (canvas.height - this.pos[1]) - this.getImage().height
+          this.pos[0],
+          this.pos[1]
         );
       } else {
         this.drawPath(canvas, ctx);
