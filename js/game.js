@@ -42,6 +42,8 @@
       this.objects.push(this.playerShip.fire());
     }, 500, { trailing: false }),
 
+    SHIP_SPEED: 5,
+
     reactToInput: function () {
       var that = this;
       that.playerShip.setVel([0, 0]);
@@ -49,16 +51,16 @@
       _.each(this.keysPressed, function (keyCode) {
         switch(keyCode) {
           case 37: 
-            that.playerShip.vel[0] = -3;
+            that.playerShip.vel[0] = -that.SHIP_SPEED;
             break;
           case 38: 
-            that.playerShip.vel[1] = 3;
+            that.playerShip.vel[1] = that.SHIP_SPEED;
             break;
           case 39: 
-            that.playerShip.vel[0] = 3;
+            that.playerShip.vel[0] = that.SHIP_SPEED;
             break;
           case 40: 
-            that.playerShip.vel[1] = -3;
+            that.playerShip.vel[1] = -that.SHIP_SPEED;
             break;
           case 32:
             that.throttledFire();
@@ -69,6 +71,8 @@
 
     render: function () {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = '#000000';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       var that = this;
       var objectsToKill = [];
       this.reactToInput();

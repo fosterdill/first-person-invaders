@@ -6,13 +6,16 @@
   };
 
   _.extend(Ship.prototype, SpaceGame.MovingObject.prototype, {
+
+    SHOT_SPEED: 10,
+
     fire: function () {
-      var shot = new SpaceGame.Shot(this._gunPos(), [0, 4], 'images/shot.png');
+      var shot = new SpaceGame.Shot(this._gunPos(), [0, this.SHOT_SPEED], 'images/shot.png');
       return shot;
     },
 
     _gunPos: function () {
-      return [this.pos[0] + (this.img.width / 2) - 5, 
+      return [this.pos[0] + (this.img.width / 2) - 9, 
               this.pos[1] + this.img.height];
     }
   });
