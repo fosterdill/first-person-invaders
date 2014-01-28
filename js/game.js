@@ -38,9 +38,9 @@
       this.render();
     },
 
-    throttledFire: _.debounce(function () {
+    throttledFire: _.throttle(function () {
       this.objects.push(this.playerShip.fire());
-    }, 1000, true),
+    }, 500, { trailing: false }),
 
     reactToInput: function () {
       var that = this;
