@@ -27,8 +27,13 @@
     },
 
     isOutOfBounds: function (canvas) {
-      return (this.pos[0] > canvas.width || this.pos[0] < 0 ||
-                    this.pos[1] > canvas.height || this.pos[1] < 0);
+      var halfWidth = canvas.width / 2;
+      var halfHeight = canvas.height / 2;
+
+      if (this.type != 'ship' && this.type != 'shot') {
+        return (this.pos[0] > halfWidth || this.pos[0] < -halfWidth ||
+                      this.pos[1] > halfHeight || this.pos[1] < -halfHeight);
+      }
     },
 
     //Getters and setters

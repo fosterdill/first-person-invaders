@@ -8,6 +8,7 @@
     this.objectsToKill = [];
     this.theta = 0;
     this.orientation = 0;
+    this.stars = [];
 
     this.objects.push(this.playerShip);
   };
@@ -21,9 +22,12 @@
       this.ctx.translate(this.canvas.width / 2,
                          this.canvas.height / 2);
       this.baddie_generator = new SpaceGame.BaddieGenerator(this.canvas);
-      this.objects.push(this.baddie_generator.generate('top'));
-      this.objects.push(this.baddie_generator.generate('right'));
-      this.objects.push(this.baddie_generator.generate('left'));
+      for (var i = 0; i < 500; i++) {
+        this.stars.push([
+          Math.random() * this.canvas.width - this.canvas.width / 2, 
+          Math.random() * this.canvas.height - this.canvas.height / 2
+        ]);
+      }
       this.loop();
     },
 
@@ -43,14 +47,21 @@
       }
     },
 
+    test: _.throttle(function () {
+      this.objects = this.objects.concat(this.baddie_generator.wave('top'));
+      this.objects = this.objects.concat(this.baddie_generator.wave('right'));
+      this.objects = this.objects.concat(this.baddie_generator.wave('left'));
+    }, 1000, { trailing: false }),
+
     loop: function () {
+      this.test();
       window.requestAnimFrame(this.loop.bind(this));
       this.render();
     },
 
     throttledFire: _.throttle(function () {
       this.objects.push(this.playerShip.fire());
-    }, 350, { trailing: false }),
+    }, 200, { trailing: false }),
 
     throttledSpin: _.throttle(function (dir) {
       this['spinning' + dir] = true;
@@ -126,6 +137,15 @@
         this.canvas.width, 
         this.canvas.height
       );
+      for (var i = 0; i < this.stars.length; i++) {
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillRect(
+          this.stars[i][0],
+          this.stars[i][1],
+          (Math.random()) * 1.5,
+          1
+        );
+      }
     },
 
     showAndMove: function (object, index) {
@@ -139,6 +159,9 @@
     garbageCollectObjects: function () {
       var that = this;
       _.each(this.objectsToKill, function (index) {
+        if (that.objects[index] && that.objects[index].type === 'enemy') {
+          that.baddie_generator.remove(1);
+        }
         that.objects.splice(index, 1);
       });
       this.objectsToKill = [];
@@ -147,13 +170,14 @@
     render: function () {
       var that = this;
       var objectsToKill = [];
-      console.log(this.orientation);
 
       this.clearAndPaintBackground();
       this.reactToInput();
       this.handleRotations();
 
       _.each(this.objects, function (object, index) {
+        if (object === null)
+          return;
         if (object.type === 'ship' || object.type === 'shot') {
           that.ctx.save();
           that.ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -164,7 +188,7 @@
         }
       }, this);
 
-      // this.garbageCollectObjects();
+      this.garbageCollectObjects();
     }
   });
 }(this));
