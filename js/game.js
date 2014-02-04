@@ -22,7 +22,7 @@
       this.ctx.translate(this.canvas.width / 2,
                          this.canvas.height / 2);
       this.baddie_generator = new SpaceGame.BaddieGenerator(this.canvas);
-      for (var i = 0; i < 500; i++) {
+      for (var i = 0; i < 300; i++) {
         this.stars.push([
           Math.random() * this.canvas.width - this.canvas.width / 2, 
           Math.random() * this.canvas.height - this.canvas.height / 2
