@@ -10,5 +10,22 @@ document.addEventListener('DOMContentLoaded', function () {
 ;
 
   var game = new SpaceGame.Game();
-  game.start();
+  var canvas = document.getElementById('game');
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(
+    0, 
+    0, 
+    canvas.width, 
+    canvas.height
+  );
+  ctx.font="20px Georgia";
+  ctx.fillStyle="white";
+  ctx.fillText("Press r to start", 185, 240);
+
+  document.onkeydown = function (event) {
+    if (event.keyCode === 82) {
+      game.start();
+    }
+  };
 });

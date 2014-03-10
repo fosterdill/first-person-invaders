@@ -14,6 +14,20 @@
       this.pos[1] += this.vel[1];
     },
 
+    collidesWith: function (movingObject) {
+      var imageWidth = movingObject.getRealWidth();
+      var imageHeight = movingObject.getRealHeight();
+      var imagePos = movingObject.getRealPos();
+      var selfWidth = this.getRealWidth();
+      var selfHeight = this.getRealHeight();
+      var selfPos = this.getRealPos();
+
+      return selfPos[0] <= imagePos[0] + imageWidth &&
+        selfPos[0] + selfWidth >= imagePos[0] &&
+        selfPos[1] + selfHeight >= imagePos[1] &&
+        selfPos[1] <= imagePos[1] + imageHeight;
+    },
+
     show: function (canvas, ctx) {
       if (this.img) {
         ctx.drawImage(
@@ -33,6 +47,8 @@
       if (this.type != 'ship' && this.type != 'shot') {
         return (this.pos[0] > halfWidth || this.pos[0] < -halfWidth ||
                       this.pos[1] > halfHeight || this.pos[1] < -halfHeight);
+      } else {
+        return false;
       }
     },
 
@@ -60,6 +76,61 @@
 
     getPos: function () {
       return this.pos;
+    },
+
+    getRealPos: function () {
+      var pos = this.getPos().slice(0);
+      if (this.type == 'enemy') {
+        switch (this.originalOrientation) {
+          case 0:
+            pos[0] = 250 + pos[0];
+            pos[1] = 250 + pos[1];
+            break;
+          case -1:
+            var tmp = [0, 0];
+            tmp[0] = 250 - (pos[1] + this.getRealWidth());
+            tmp[1] = 250 + pos[0];
+            pos = tmp;
+            break;
+          case 1:
+            var tmp = [0, 0];
+            tmp[0] = 250 + pos[1];
+            tmp[1] = 250 - (pos[0] + this.getRealHeight());
+            pos = tmp;
+            break;
+        }
+      }
+      return pos;
+    },
+
+    getRealWidth: function () {
+      var width = this.getImage().width;
+      if (this.type == 'enemy') {
+        switch (this.originalOrientation) {
+          case 1:
+            width = this.getImage().height;
+            break;
+          case -1:
+            width = this.getImage().height;
+            break;
+        }
+      }
+      return width;
+    },
+
+    getRealHeight: function () {
+      var height = this.getImage().height;
+      if (this.type == 'enemy') {
+        switch (this.originalOrientation) {
+          case 1:
+            height = this.getImage().width;
+            break;
+          case -1:
+            height = this.getImage().width;
+            break;
+        }
+      }
+      return height;
     }
   });
 })(this);

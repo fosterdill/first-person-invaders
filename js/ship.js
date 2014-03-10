@@ -7,7 +7,7 @@
   };
 
   _.extend(Ship.prototype, SpaceGame.MovingObject.prototype, {
-    SHOT_SPEED: 10,
+    SHOT_SPEED: 15,
 
     fire: function () {
       var shot = new SpaceGame.Shot(this._gunPos(), [0, -this.SHOT_SPEED], 'images/shot.png');
