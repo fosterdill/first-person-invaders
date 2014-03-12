@@ -1,0 +1,26 @@
+body {
+  font-family: 'Duru Sans'
+}
+
+.red-font {
+  color: red;
+  font-size: 20pt;
+}
+#game {
+  float: left;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+p {
+  margin-top: 0px;
+}
+
+.desc {
+  width: 90%;
+  text-align:left;
+  padding-right: 50px;
+  padding-top: 50px;
+  left: 20px;
+  position: relative;
+}
